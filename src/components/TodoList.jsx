@@ -1,24 +1,31 @@
 // components
-import PomodoroTimer from './PomodoroTimer';
-import TodoListItem from './TaskItem';
+import TaskItem from './TaskItem';
 
 function TodoList() {
+  const { tasks } = useTasks();
   return (
-    <div className="flex gap-5 justify-center w-full">
-      <div
-        className="bg-gray-400 rounded-lg shadow-lg p-6 w-full 
-       max-w-4xl flex-col justify-between md:flex-row gap-6 mt-5"
-      >
-        <TodoListItem />
-      </div>
+    <section>
+      {/* tasks empty */}
+      {tasks.length === 0 ? (
+        <div className="flex flex-col gap-4 justify-center items-center py-[64px] px-6">
+          <img src="/public/clipboard.svg" alt="file-logo" />
 
-      <div
-        className="bg-gray-400 rounded-lg shadow-lg p-6 
-       max-w-4xl flex-col justify-between md:flex-row gap-6 mt-5"
-      >
-        <PomodoroTimer />
-      </div>
-    </div>
+          <p className="flex flex-col text-[16px] font-bold text-gray300">
+            You do not have any registered tasks yet.
+            <span className="text-[16px] font-medium text-gray300">
+              Create tasks and organize your to-do items
+            </span>
+          </p>
+        </div>
+      ) : (
+        // TasksList
+        <ul className="flex flex-col gap-3 items-center justify-start w-full">
+          {tasks?.map((task, index) => {
+            return <TaskItem key={index}>{task.name}</TaskItem>;
+          })}
+        </ul>
+      )}
+    </section>
   );
 }
 

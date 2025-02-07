@@ -1,5 +1,6 @@
 // components
-import TodoList from '../components/TodoList';
+import PomodoroTimer from '@/components/PomodoroTimer';
+import TodoListItem from '@/components/TaskItem';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 
@@ -8,13 +9,13 @@ import { GrAddCircle } from 'react-icons/gr';
 
 function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-500  flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-gray-500 flex flex-col items-center justify-center">
       {/* header */}
-      <header className="p-5 mb-10">
+      <div className="p-2 mb-10">
         <h1 className="text-6xl text-bluedark font-bold text-center ">
           Task Listing
         </h1>
-      </header>
+      </div>
 
       {/* form */}
       <div>
@@ -33,8 +34,20 @@ function HomePage() {
         </form>
       </div>
 
-      <div>
-        <TodoList />
+      {/* pomodoro */}
+      <div
+        className="bg-gray-400 rounded-lg shadow-lg p-3 
+          max-w-xl flex-col items-center md:flex-row mt-5"
+      >
+        <PomodoroTimer />
+      </div>
+
+      {/* task list */}
+      <div
+        className="bg-gray-400 rounded-lg shadow-lg p-6 w-full 
+          max-w-4xl flex-col justify-between md:flex-row gap-6 mt-5"
+      >
+        <TodoListItem />
       </div>
     </main>
   );
