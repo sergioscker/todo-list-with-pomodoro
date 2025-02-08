@@ -10,17 +10,16 @@ import { FaTrashAlt } from 'react-icons/fa';
 
 function TaskItem({ task, id, onToggle, onDelete }) {
   return (
-    <div className="bg-gray-400 flex justify-between items-center gap-4 border border-gray-300/90 rounded-md p-3">
+    <div className="bg-gray-400 flex items-center gap-5 border border-gray-300/90 rounded-md p-3 w-full">
       {/* checkbox container */}
       <Checkbox
         checked={task.completed}
         onClick={() => onToggle(id)}
         className={`rounded-full ${task.completed ? 'border-none' : ''}`}
       />
-
       {/* text Tasks */}
       <p
-        className={`flex justify-center items-center text-white text-xl ${
+        className={`text-white text-left line-clamp-2 text-xl ${
           task.completed ? 'line-through text-white/40' : ''
         }`}
       >

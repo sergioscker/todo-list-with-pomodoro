@@ -1,5 +1,5 @@
 //hooks
-import { useState } from 'react';
+import { usePomodoro } from '@/hooks/usePomodoro';
 
 // icons
 import { Play, Pause, RotateCcw } from 'lucide-react';
@@ -8,26 +8,47 @@ import { Play, Pause, RotateCcw } from 'lucide-react';
 import { Button } from './ui/button';
 
 function PomodoroTimer() {
-  const [isActive, setActive] = useState(false);
+  const { time, isRunning, isWorkMode, startTimer, pauseTimer, resetTimer } =
+    usePomodoro();
+
+  // formatação do tempo para string e colocação do 0 para caso a string tenha menos de 2 caracteres
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, '0')} : ${String(secs).padStart(
+      2,
+      '0',
+    )}`;
+  };
 
   return (
-    <div className="flex-col items-center justify-center w-[250px] border border-gray-300 rounded-md p-5 mt-5">
-      <h1 className="text-3xl text-center text-white/80 mb-3">Work Time</h1>
+    <div
+      className={`pomodoro-container ${
+        isWorkMode ? 'Break' : 'Work'
+      } flex-col items-center justify-center w-[250px] border border-gray-300 rounded-md p-5 mt-5`}
+    >
+      {/* Time Mode */}
+      <h1 className="text-3xl text-center text-white/80 mb-3">
+        {isWorkMode ? 'Work Time' : 'Break Time'}
+      </h1>
 
-      <p className="text-6xl text-center font-bold mb-6 text-gray-100">18:30</p>
+      {/* Timer */}
+      <p className="text-6xl text-center font-bold mb-6 text-gray-100">
+        {formatTime(time)}
+      </p>
 
-      {/* buttons */}
+      {/* buttons play, pause and reset */}
       <div className="flex items-center justify-center p-4 gap-3">
-        <Button variant="default">
-          {isActive ? (
+        <Button variant="default" onClick={isRunning ? pauseTimer : startTimer}>
+          {isRunning ? (
             <Pause className="w-4 h-4" />
           ) : (
             <Play className="w-4 h-4" />
           )}
-          {isActive ? 'Pause' : 'Play'}
+          {isRunning ? 'Pause' : 'Play'}
         </Button>
 
-        <Button variant="default">
+        <Button variant="default" onClick={resetTimer}>
           <RotateCcw className="w-4 h-4" /> Reset
         </Button>
       </div>

@@ -1,11 +1,12 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   { ignores: ['dist'] },
+
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -35,4 +36,20 @@ export default [
       ],
     },
   },
-]
+
+  // Configuração para ignorar regras em arquivos relacionados ao Jest
+  {
+    files: [
+      'jest.config.js',
+      'src/tests/setup.js',
+      'src/tests/useTasks.test.jsx',
+    ],
+    env: {
+      node: true,
+    },
+    rules: {
+      'no-undef': 'off',
+      'no-console': 'off',
+    },
+  },
+];

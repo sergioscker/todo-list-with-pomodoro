@@ -17,6 +17,7 @@ function HomePage() {
 
   const handleAddTasks = (event) => {
     event.preventDefault();
+
     if (!newTask.trim()) return;
     addTasks(newTask);
     setNewTask('');
@@ -25,16 +26,18 @@ function HomePage() {
   return (
     <main className="flex flex-col items-center min-h-screen bg-gray-500 p-6">
       {/* Header */}
-      <h1 className="text-4xl md:text-6xl text-white/90 font-bold text-center p-6">
-      <img src="" alt="logo-gaming" />
-        {tasks.length === 0 ? (
-          <strong>
-            to<span className="text-bluedark">do</span>
-          </strong>
-        ) : (
-          'Task Listing'
-        )}
-      </h1>
+      <div className="flex items-center justify-center w-full mb-6">
+        {/* title */}
+        <h1 className="text-4xl md:text-6xl text-white/90 font-bold text-center p-6">
+          {tasks.length === 0 ? (
+            <strong>
+              to<span className="text-bluedark">do</span>
+            </strong>
+          ) : (
+            'Task Listing'
+          )}
+        </h1>
+      </div>
 
       {/* Form */}
       <form
@@ -48,6 +51,7 @@ function HomePage() {
           placeholder="Add a new task"
           className="flex-1 p-2 rounded"
         />
+
         <Button type="submit" className="flex items-center gap-2">
           Create <GrAddCircle className="w-4 h-4" />
         </Button>
@@ -58,14 +62,14 @@ function HomePage() {
         <div className="flex flex-wrap items-center justify-between gap-4 py-3">
           <div className="flex items-center gap-2 text-bluedark text-sm font-bold">
             Tasks created
-            <span className="flex items-center justify-center bg-gray400 text-white text-xs rounded-full w-6 h-6">
+            <span className="flex items-center justify-center bg-gray-400 text-white text-xs rounded-full w-6 h-6">
               {tasks.length}
             </span>
           </div>
 
           <div className="flex items-center gap-2 text-purple text-sm font-bold">
             Completed
-            <span className="flex items-center justify-center bg-gray400 text-white text-xs rounded-full w-auto px-3 h-6">
+            <span className="flex items-center justify-center bg-gray-400 text-white text-xs rounded-full w-auto px-3 h-6">
               {tasks.filter((task) => task.completed).length} of {tasks.length}
             </span>
           </div>
