@@ -1,3 +1,6 @@
+// props validation
+import PropTypes from 'prop-types';
+
 // components
 import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
@@ -5,26 +8,46 @@ import { Checkbox } from './ui/checkbox';
 // icons
 import { FaTrashAlt } from 'react-icons/fa';
 
-function TaskItem() {
+function TaskItem({ task, id, onToggle, onDelete }) {
   return (
-    <div className="flex justify-between items-center gap-4">
+    <div className="bg-gray-400 flex justify-between items-center gap-4 border border-gray-300/90 rounded-md p-3">
       {/* checkbox container */}
-      <Checkbox className="rounded-full" />
+      <Checkbox
+        checked={task.completed}
+        onClick={() => onToggle(id)}
+        className={`rounded-full ${task.completed ? 'border-none' : ''}`}
+      />
 
-      {/* textTasks */}
-      <p className="text-white text-xl text-center font-normal">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id corporis
-        nihil blanditiis doloribus magnam repellendus iure animi aliquam harum
-        labore quisquam tempora, sunt facilis officiis dolore. Optio porro quas
-        enim?
+      {/* text Tasks */}
+      <p
+        className={`flex justify-center items-center text-white text-xl ${
+          task.completed ? 'line-through text-white/40' : ''
+        }`}
+      >
+        {task.text}
       </p>
 
       {/* trash button */}
-      <Button type="button" aria-label="Delete task">
-        <FaTrashAlt className="w-4 h-4 text-gray-400" />
+      <Button
+        type="button"
+        variant="destructive"
+        onClick={() => onDelete(id)}
+        aria-label="Delete task"
+      >
+        <FaTrashAlt />
       </Button>
     </div>
   );
 }
 
+TaskItem.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  }).isRequired,
+  id: PropTypes.number.isRequired,
+  onToggle: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 export default TaskItem;

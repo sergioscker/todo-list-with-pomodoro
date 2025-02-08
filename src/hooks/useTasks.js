@@ -1,12 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // analisa os dados que chegam no localStorage
-const storedTasks = () => JSON.parse(localStorage.getItem('tasks') || []);
+const storedTasks = () => JSON.parse(localStorage.getItem('tasks') || '[]');
 
 export const useTasks = () => {
   const queryClient = useQueryClient();
 
-  const { data: tasks = [] } = useQuery(['tasks'], storedTasks);
+  const { data: tasks = [] } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: storedTasks,
+  });
 
   // transforma os dados em string
   const updatedLocalStorage = (newTasks) => {
@@ -15,22 +18,32 @@ export const useTasks = () => {
   };
 
   // adiciona ao array as tasks já contidas + as novas tasks
-  const addTasks = useMutation((task) => updatedLocalStorage([...tasks, task]));
+  const addTasks = useMutation({
+    mutationFn: (task) => {
+      updatedLocalStorage([
+        ...tasks,
+        { id: Date.now(), text: task, completed: false },
+      ]);
+    },
+  });
 
   // tarefa finalizada checkbox
-  const completedTask = useMutation((id) =>
-    updatedLocalStorage(
-      tasks.map((task) =>
-        task.id === id ? { ...tasks, completed: !task.completed } : task,
-      ),
-    ),
-  );
+  const completedTask = useMutation({
+    mutationFn: (id) => {
+      updatedLocalStorage(
+        tasks.map((task) =>
+          task.id === id ? { ...task, completed: !task.completed } : task,
+        ),
+      );
+    },
+  });
 
   // deleta tasks comparando id
-  const deleteTask = useMutation((id) =>
-    updatedLocalStorage(tasks.filter((task) => task.id !== id)),
-  );
-
+  const deleteTask = useMutation({
+    mutationFn: (id) => {
+      updatedLocalStorage(tasks.filter((task) => task.id !== id));
+    },
+  });
   // retorna todas as funções para utilizar contexto
   return {
     tasks,

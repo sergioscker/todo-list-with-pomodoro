@@ -1,72 +1,91 @@
-import { useTasks } from '@/hooks/useTasks';
-
+import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { act, renderHook } from '@testing-library/react-hooks';
-import { beforeEach, describe, expect, test } from 'vitest';
+import { describe, test, expect, beforeEach } from 'vitest';
+import { act } from 'react';
+import { useTasks } from '../hooks/useTasks';
 
-const queryClient = new QueryClient();
+// Criando um componente de teste que usa o hook
+const TestComponent = () => {
+  const { tasks, addTask, toggleTask, removeTask } = useTasks();
+  return (
+    <div>
+      <ul data-testid="task-list">
+        {tasks.map((task) => (
+          <li key={task.id} data-testid={`task-${task.id}`}>
+            {task.text} - {task.completed ? 'Completed' : 'Pending'}
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={() => addTask({ id: 1, text: 'New Task', completed: false })}
+        data-testid="add-task-btn"
+      >
+        Add Task
+      </button>
+      <button onClick={() => toggleTask(1)} data-testid="toggle-task-btn">
+        Toggle Task
+      </button>
+      <button onClick={() => removeTask(1)} data-testid="remove-task-btn">
+        Remove Task
+      </button>
+    </div>
+  );
+};
 
-const wrapper = ({ children }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-);
+// Criando um wrapper para React Query
+const createWrapper = ({ children }) => {
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+};
 
 describe('useTasks Hook', () => {
-  // clearning localStorage
   beforeEach(() => {
     localStorage.clear();
   });
 
-  // empty task list
   test('should return empty task list', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+    render(<TestComponent />, { wrapper: createWrapper });
 
-    expect(result.current.tasks).toEqual([]);
+    const taskList = screen.getByTestId('task-list');
+    expect(taskList.children.length).toBe(0);
   });
 
-  // add new task
   test('should add new task', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+    render(<TestComponent />, { wrapper: createWrapper });
 
     act(() => {
-      result.current.addTasks({ id: 1, text: 'new task', completed: false });
+      screen.getByTestId('add-task-btn').click();
     });
 
-    expect(result.current.tasks).toEqual([
-      { id: 1, text: 'new task', completed: false },
-    ]);
-  });
-
-  // change status task
-  test('should change status task', () => {
-    localStorage.setItem(
-      'tasks',
-      JSON.stringify([{ id: 1, text: 'task', completed: false }]),
+    expect(screen.getByTestId('task-1')).toHaveTextContent(
+      'New Task - Pending',
     );
-
-    const { result } = renderHook(() => useTasks(), { wrapper });
-
-    act(() => {
-      result.current.completedTask(1);
-    });
-
-    expect(result.current.tasks).toEqual([
-      { id: 1, text: 'Tarefa', completed: true },
-    ]);
   });
 
-  // delete task
+  test('should change task status', () => {
+    render(<TestComponent />, { wrapper: createWrapper });
+
+    act(() => {
+      screen.getByTestId('add-task-btn').click();
+      screen.getByTestId('toggle-task-btn').click();
+    });
+
+    expect(screen.getByTestId('task-1')).toHaveTextContent(
+      'New Task - Completed',
+    );
+  });
+
   test('should delete a task', () => {
-    localStorage.setItem(
-      'tasks',
-      JSON.stringify([{ id: 1, text: 'Tarefa', completed: false }]),
-    );
-
-    const { result } = renderHook(() => useTasks(), { wrapper });
+    render(<TestComponent />, { wrapper: createWrapper });
 
     act(() => {
-      result.current.deleteTask(1);
+      screen.getByTestId('add-task-btn').click();
+      screen.getByTestId('remove-task-btn').click();
     });
 
-    expect(result.current.tasks).toEqual([]);
+    const taskList = screen.getByTestId('task-list');
+    expect(taskList.children.length).toBe(0);
   });
 });
