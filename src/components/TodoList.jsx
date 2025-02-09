@@ -1,7 +1,8 @@
+// props validation
+import PropTypes from 'prop-types';
+
 // components
 import TaskItem from './TaskItem';
-
-import PropTypes from 'prop-types';
 
 function TodoList({ tasks = [], onDelete, onToggle }) {
   return (

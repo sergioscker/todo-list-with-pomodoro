@@ -1,3 +1,8 @@
+// validation
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 // components
 import PomodoroTimer from '@/components/PomodoroTimer';
 import TodoList from '@/components/TodoList';
@@ -9,19 +14,28 @@ import { GrAddCircle } from 'react-icons/gr';
 
 // hooks
 import { useTasks } from '@/hooks/useTasks';
-import { useState } from 'react';
 
 function HomePage() {
   const { tasks, addTasks, completedTask, deleteTask } = useTasks();
-  const [newTask, setNewTask] = useState('');
 
-  const handleAddTasks = (event) => {
-    event.preventDefault();
+  const handleAddTasks = (data) => {
+    if (!data.text.trim()) return;
 
-    if (!newTask.trim()) return;
-    addTasks(newTask);
-    setNewTask('');
+    addTasks(data.text);
   };
+
+  // validation schema
+  const schema = yup.object({
+    text: yup.string().required(),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   return (
     <main className="flex flex-col items-center min-h-screen bg-gray-500 p-6">
@@ -41,16 +55,20 @@ function HomePage() {
 
       {/* Form */}
       <form
-        onSubmit={handleAddTasks}
+        onSubmit={handleSubmit(handleAddTasks)}
         className="flex flex-col md:flex-row gap-4 w-full max-w-2xl"
       >
-        <Input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Add a new task"
-          className="flex-1 p-2 rounded"
-        />
+        <div className="w-full">
+          <Input
+            type="text"
+            placeholder="Add a new task"
+            className="flex-1 p-2 rounded"
+            {...register('text')}
+          />
+          {errors.text && (
+            <p className="text-red-500 text-md mt-1">{errors?.text?.message}</p>
+          )}
+        </div>
 
         <Button type="submit" className="flex items-center gap-2">
           Create <GrAddCircle className="w-4 h-4" />

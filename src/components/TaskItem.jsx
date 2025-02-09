@@ -19,7 +19,7 @@ function TaskItem({ task, id, onToggle, onDelete }) {
       />
       {/* text Tasks */}
       <p
-        className={`text-white text-left line-clamp-2 text-xl ${
+        className={`text-white text-left text-xl ${
           task.completed ? 'line-through text-white/40' : ''
         }`}
       >
