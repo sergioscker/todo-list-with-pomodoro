@@ -6,7 +6,6 @@ export const moduleNameMapper = {
   // Ignorar arquivos CSS e outros assets não-JS
   '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
 };
-
 export const transform = {
   '^.+\\.(js|jsx)$': [
     '@swc/jest',
@@ -25,13 +24,11 @@ export const transform = {
     },
   ],
 };
-
 export const setupFilesAfterEnv = [
   // Adiciona @testing-library/jest-dom para permitir usar as asserções de 'toBeInTheDocument', entre outras.
   '<rootDir>/src/tests/setup.js',
   '@testing-library/jest-dom',
 ];
-
 // Permitir transformação de pacotes ESM dentro de node_modules
 export const transformIgnorePatterns = [
   '/node_modules/(?!lucide-react|@tanstack/react-query)',

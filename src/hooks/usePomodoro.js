@@ -1,5 +1,5 @@
 // hooks
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // notifications
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ export const usePomodoro = () => {
   const [time, setTime] = useState(WORK_TIME);
   const [isRunning, setIsRunning] = useState(false);
   const [isWorkMode, setWorkMode] = useState(true);
+  const timerRef = useRef(null);
 
   const startTimer = () => setIsRunning(true);
 
@@ -21,6 +22,7 @@ export const usePomodoro = () => {
     setIsRunning(false);
     setTime(WORK_TIME);
     setWorkMode(true);
+    clearInterval(timerRef.current);
   };
 
   const toggleMode = () => {
@@ -36,14 +38,13 @@ export const usePomodoro = () => {
   };
 
   useEffect(() => {
-    let timer;
-
     if (isRunning && time > 0) {
-      timer = setInterval(() => {
+      timerRef.current = setInterval(() => {
         setTime((time) => (time > 0 ? time - 1 : 0));
       }, 1000);
     } else if (time === 0 && isRunning) {
       setIsRunning(false);
+      clearInterval(timerRef.current);
 
       // troca de modo e reinicio do pomodoro automaticamente
       setTimeout(() => {
@@ -53,7 +54,7 @@ export const usePomodoro = () => {
       }, 2000);
     }
 
-    return () => clearInterval(timer);
+    return () => clearInterval(timerRef.current);
   }, [isRunning, time, isWorkMode]);
 
   return {

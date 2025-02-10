@@ -33,7 +33,10 @@ function PomodoroTimer() {
       </h1>
 
       {/* Timer */}
-      <p className="text-6xl text-center font-bold mb-6 text-gray-100">
+      <p
+        className="text-6xl text-center font-bold mb-6 text-gray-100"
+        data-testid="timer-display"
+      >
         {formatTime(time)}
       </p>
 
