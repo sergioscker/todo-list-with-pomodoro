@@ -22,6 +22,7 @@ function HomePage() {
     if (!data.text.trim()) return;
 
     addTasks(data.text);
+    reset();
   };
 
   // validation schema
@@ -33,6 +34,7 @@ function HomePage() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
