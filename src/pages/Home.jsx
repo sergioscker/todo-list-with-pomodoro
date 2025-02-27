@@ -16,7 +16,7 @@ import { GrAddCircle } from 'react-icons/gr';
 import { useTasks } from '@/hooks/useTasks';
 
 function HomePage() {
-  const { tasks, addTasks, completedTask, deleteTask } = useTasks();
+  const { tasks, addTasks, completedTask, deleteTask, editTasks } = useTasks();
 
   const handleAddTasks = (data) => {
     if (!data.text.trim()) return;
@@ -100,7 +100,7 @@ function HomePage() {
       <PomodoroTimer />
 
       {/* Task List */}
-      <TodoList tasks={tasks} onDelete={deleteTask} onToggle={completedTask} />
+      <TodoList tasks={tasks} onDelete={deleteTask} onToggle={completedTask} onEdit={editTasks}/>
     </main>
   );
 }

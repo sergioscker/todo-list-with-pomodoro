@@ -44,11 +44,23 @@ export const useTasks = () => {
       updatedLocalStorage(tasks.filter((task) => task.id !== id));
     },
   });
+
+  const editTasks = useMutation({
+    mutationFn: ({ id, newTask }) => {
+      const updatedTasks = tasks.map((task) =>
+        task.id === id ? { ...task, text: newTask } : task,
+      );
+
+      updatedLocalStorage(updatedTasks);
+    },
+  });
+
   // retorna todas as funções para utilizar contexto
   return {
     tasks,
     addTasks: addTasks.mutate,
     completedTask: completedTask.mutate,
     deleteTask: deleteTask.mutate,
+    editTasks: editTasks.mutate,
   };
 };

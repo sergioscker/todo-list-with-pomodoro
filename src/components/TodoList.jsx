@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // components
 import TaskItem from './TaskItem';
 
-function TodoList({ tasks = [], onDelete, onToggle }) {
+function TodoList({ tasks = [], onDelete, onToggle, onEdit }) {
   return (
     <section
       className={`flex items-center justify-center max-w-xl border-gray-300 rounded-md p-5 mt-5 ${
@@ -33,6 +33,7 @@ function TodoList({ tasks = [], onDelete, onToggle }) {
                 id={task.id}
                 onDelete={onDelete}
                 onToggle={onToggle}
+                onEdit={onEdit}
               />
             </li>
           ))}
@@ -52,6 +53,7 @@ TodoList.propTypes = {
   ).isRequired,
   onDelete: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default TodoList;
