@@ -30,7 +30,7 @@ function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
         <Input value={newTask} onChange={(e) => setNewTask(e.target.value)} />
       ) : (
         <p
-          className={`text-white text-left text-xl${
+          className={`text-white text-left text-xl ${
             task.completed ? 'line-through text-white/40' : ''
           }`}
         >
