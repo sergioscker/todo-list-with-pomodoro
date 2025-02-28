@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
-// page
+// pages
 import HomePage from './pages/Home';
 
 import { ToastContainer } from 'react-toastify';

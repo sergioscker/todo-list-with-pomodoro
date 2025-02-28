@@ -15,9 +15,13 @@ import { FaCheck } from 'react-icons/fa';
 function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
   const [edit, setEdit] = useState(false);
   const [newTask, setNewTask] = useState('');
-  
+
   return (
-    <div className="bg-gray-400 flex items-center justify-between gap-5 border border-gray-300/90 rounded-md p-3 w-[600px]">
+    <div
+      className="bg-gray-400 flex flex-wrap items-center gap-5 justify-between border 
+    border-gray-300/90 rounded-md p-3 w-full min-w-[200px] max-w-[700px] 
+    md:w-[400px] lg:w-[700px]"
+    >
       {/* checkbox container */}
       <Checkbox
         checked={task.completed}
@@ -27,10 +31,14 @@ function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
 
       {/* text Tasks */}
       {edit ? (
-        <Input value={newTask} onChange={(e) => setNewTask(e.target.value)} />
+        <Input
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          className="flex-1 w-full"
+        />
       ) : (
         <p
-          className={`text-white text-left text-xl ${
+          className={`text-white text-left text-xl flex-1 break-words ${
             task.completed ? 'line-through text-white/40' : ''
           }`}
         >
@@ -39,7 +47,7 @@ function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
       )}
 
       {/* button container */}
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center gap-3">
         <Button
           type="button"
           onClick={() => onDelete(id)}

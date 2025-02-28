@@ -58,13 +58,13 @@ function HomePage() {
       {/* Form */}
       <form
         onSubmit={handleSubmit(handleAddTasks)}
-        className="flex flex-col md:flex-row gap-4 w-full max-w-2xl"
+        className="flex flex-col md:flex-row gap-4 w-full max-w-3xl"
       >
         <div className="w-full">
           <Input
             type="text"
             placeholder="Add a new task"
-            className="flex-1 p-2 rounded"
+            className="flex-1 p-2"
             {...register('text')}
           />
           {errors.text && (
@@ -78,7 +78,7 @@ function HomePage() {
       </form>
 
       {/* Labels */}
-      <div className="w-full max-w-2xl py-5">
+      <div className="w-full max-w-3xl py-5">
         <div className="flex flex-wrap items-center justify-between gap-4 py-3">
           <div className="flex items-center gap-2 text-bluedark text-sm font-bold">
             Tasks created
@@ -100,7 +100,12 @@ function HomePage() {
       <PomodoroTimer />
 
       {/* Task List */}
-      <TodoList tasks={tasks} onDelete={deleteTask} onToggle={completedTask} onEdit={editTasks}/>
+      <TodoList
+        tasks={tasks}
+        onDelete={deleteTask}
+        onToggle={completedTask}
+        onEdit={editTasks}
+      />
     </main>
   );
 }
