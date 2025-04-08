@@ -20,12 +20,11 @@ function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
     onEdit({ id: task.id, newTask });
     setEdit(false);
   };
-
   return (
     <div
-      className="bg-gray-400 flex flex-wrap items-center gap-5 justify-between border 
-     border-gray-300/90 rounded-md p-3 min-w-[200px] max-w-[700px] transition-all duration-200
-      animate-fade-in md:w-[400px] lg:w-[700px] "
+      className="bg-gray-400 flex flex-wrap items-center gap-5 justify-between 
+      border border-gray-300/90 rounded-md p-3 md:w-[600px] lg:w-[700px]
+      transition-all duration-200 animate-fade-in"
     >
       {/* checkbox container */}
       <Checkbox
@@ -45,15 +44,15 @@ function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
         />
       ) : (
         <p
-          className={`text-white text-left lg:text-xl text-lg flex-1 break-words ${
+          className={`text-white text-left lg:text-xl text-lg flex-1 ${
             task.completed ? 'line-through text-white/40' : ''
           }`}
         >
           {task.text}
         </p>
       )}
-      {/* button container */}
 
+      {/* button container */}
       <div className="flex items-center gap-3">
         <Button
           type="button"

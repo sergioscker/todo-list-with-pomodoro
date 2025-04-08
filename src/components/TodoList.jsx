@@ -25,7 +25,7 @@ function TodoList({ tasks = [], onDelete, onToggle, onEdit }) {
         </div>
       ) : (
         // TasksList
-        <ul className="flex flex-col gap-3 items-center justify-start w-full">
+        <ul className="flex flex-wrap justify-center gap-4 p-4">
           {tasks.map((task) => (
             <li key={task.id}>
               <TaskItem
