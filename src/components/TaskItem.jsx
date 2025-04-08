@@ -14,19 +14,26 @@ import { FaCheck } from 'react-icons/fa';
 
 function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
   const [edit, setEdit] = useState(false);
-  const [newTask, setNewTask] = useState('');
+  const [newTask, setNewTask] = useState(task.text);
+
+  const handleEdit = () => {
+    onEdit({ id: task.id, newTask });
+    setEdit(false);
+  };
 
   return (
     <div
       className="bg-gray-400 flex flex-wrap items-center gap-5 justify-between border 
-    border-gray-300/90 rounded-md p-3 w-full min-w-[200px] max-w-[700px] 
-    md:w-[400px] lg:w-[700px]"
+     border-gray-300/90 rounded-md p-3 min-w-[200px] max-w-[700px] transition-all duration-200
+      animate-fade-in md:w-[400px] lg:w-[700px] "
     >
       {/* checkbox container */}
       <Checkbox
         checked={task.completed}
         onClick={() => onToggle(id)}
-        className={`rounded-full ${task.completed ? 'border-none' : ''}`}
+        className={`rounded-full shrink-0 transition-all duration-200 ${
+          task.completed ? 'border-none' : ''
+        }`}
       />
 
       {/* text Tasks */}
@@ -38,39 +45,43 @@ function TaskItem({ task, id, onToggle, onDelete, onEdit }) {
         />
       ) : (
         <p
-          className={`text-white text-left text-xl flex-1 break-words ${
+          className={`text-white text-left lg:text-xl text-lg flex-1 break-words ${
             task.completed ? 'line-through text-white/40' : ''
           }`}
         >
           {task.text}
         </p>
       )}
-
       {/* button container */}
+
       <div className="flex items-center gap-3">
         <Button
           type="button"
           onClick={() => onDelete(id)}
           aria-label="Delete task"
-          className="w-8 h-8"
+          className="w-8 h-8 transition-all duration-200 hover:scale-105"
         >
           <FaTrashAlt />
         </Button>
 
-        <Button onClick={() => setEdit(true)} className="w-8 h-8">
-          <FaEdit />
-        </Button>
+        {!edit && (
+          <Button
+            onClick={() => setEdit(true)}
+            className="w-8 h-8 transition-all duration-200 hover:scale-105"
+          >
+            <FaEdit />
+          </Button>
+        )}
 
-        <Button
-          type="button"
-          onClick={() => {
-            onEdit({ id: task.id, newTask });
-            setEdit(false);
-          }}
-          className="w-8 h-8"
-        >
-          <FaCheck />
-        </Button>
+        {edit && (
+          <Button
+            type="button"
+            onClick={handleEdit}
+            className="w-8 h-8 transition-all duration-200 hover:scale-105"
+          >
+            <FaCheck />
+          </Button>
+        )}
       </div>
     </div>
   );

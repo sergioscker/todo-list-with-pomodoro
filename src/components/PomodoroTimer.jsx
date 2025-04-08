@@ -42,16 +42,24 @@ function PomodoroTimer() {
 
       {/* buttons play, pause and reset */}
       <div className="flex items-center justify-center p-4 gap-3">
-        <Button variant="default" onClick={isRunning ? pauseTimer : startTimer}>
+        <Button
+          variant="default"
+          className="transition-all duration-200 hover:scale-105"
+          onClick={isRunning ? pauseTimer : startTimer}
+        >
           {isRunning ? (
-            <Pause className="w-4 h-4" />
+            <Pause className="w-8 h-8" />
           ) : (
-            <Play className="w-4 h-4" />
+            <Play className="w-8 h-8" />
           )}
           {isRunning ? 'Pause' : 'Play'}
         </Button>
 
-        <Button variant="default" onClick={resetTimer}>
+        <Button
+          variant="default"
+          className="transition-all duration-200 hover:scale-105"
+          onClick={resetTimer}
+        >
           <RotateCcw className="w-4 h-4" /> Reset
         </Button>
       </div>

@@ -72,7 +72,10 @@ function HomePage() {
           )}
         </div>
 
-        <Button type="submit" className="flex items-center gap-2">
+        <Button
+          type="submit"
+          className="flex items-center gap-2 transition-all duration-200 hover:scale-105"
+        >
           Create <GrAddCircle className="w-4 h-4" />
         </Button>
       </form>
